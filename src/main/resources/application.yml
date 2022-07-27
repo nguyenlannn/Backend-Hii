@@ -1,0 +1,15 @@
+JWT_SECRET: '9AEW57AzDzHiamTadS3zr3g33g34grgb3MxAưewe0/xJEsx7RpYRorLUDEUugrQ=='
+JWT_TIME_ACCESS_TOKEN: 3600000
+JWT_TIME_REFRESH_TOKEN: 31536000000
+spring:
+  profiles:
+    active: local
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  servlet:
+    multipart:
+      max-file-size: 10MB
+      max-request-size: 10MB
+
