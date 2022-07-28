@@ -1,6 +1,5 @@
 package com.example.backendhii.entities;
 
-
 import com.example.backendhii.basess.BaseEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -18,7 +17,7 @@ import java.util.Collection;
 @AllArgsConstructor
 @NoArgsConstructor
 @SuperBuilder
-@Entity(name="role")
+@Entity(name = "role")
 public class RoleEntity extends BaseEntity {
 
     @Column(nullable = false, unique = true)

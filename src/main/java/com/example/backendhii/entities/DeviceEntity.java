@@ -7,8 +7,10 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
-import javax.persistence.*;
-
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 @Getter
 @Setter
@@ -26,7 +28,6 @@ public class DeviceEntity extends BaseEntity {
 
     @Column(nullable = false, columnDefinition = "text")
     private String refreshToken;
-
 
     @ManyToOne
     @JoinColumn(name = "user_id")
