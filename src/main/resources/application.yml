@@ -3,10 +3,10 @@ JWT_TIME_ACCESS_TOKEN: 3600000
 JWT_TIME_REFRESH_TOKEN: 31536000000
 spring:
   profiles:
-    active: dev
+    active: local
   jpa:
     hibernate:
-      ddl-auto: create
+      ddl-auto: update
     show-sql: true
   servlet:
     multipart:
