@@ -1,8 +1,6 @@
 package com.example.backendhii.dto.produce;
 
 import com.example.backendhii.basess.BaseProduceDto;
-import com.example.backendhii.entities.DeviceEntity;
-import com.example.backendhii.entities.RoleEntity;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,7 +18,7 @@ public class UserProduceDto extends BaseProduceDto<Long> {
 
     private String email;
 
-    private Collection<DeviceEntity> devices;
+    private Collection<DeviceProduceDto> devices;
 
-    private Collection<RoleEntity> roles;
+    private Collection<RoleProduceDto> roles;
 }
