@@ -1,6 +1,7 @@
 package com.example.backendhii.config;
 
 import com.example.backendhii.entities.UserEntity;
+import com.example.backendhii.exceptions.BadRequestException;
 import com.example.backendhii.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -26,8 +27,7 @@ public class UserDetailServiceConfig implements UserDetailsService {
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         UserEntity userEntity = mUserRepository.findByEmail(email);
         if (Objects.isNull(userEntity)) {
-//            throw new BadRequestException(email + " not found in database");
-            return null;
+            throw new BadRequestException(email + " not found in database");
         } else {
             Collection<SimpleGrantedAuthority> authorities = userEntity.getRoles().stream().map(roleEntity ->
                     new SimpleGrantedAuthority(roleEntity.getName().toString())).collect(Collectors.toList());
