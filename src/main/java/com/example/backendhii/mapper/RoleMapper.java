@@ -9,6 +9,5 @@ import org.mapstruct.Mapping;
 public abstract class RoleMapper implements CustomMapper {
 
     @Mapping(target = "users", ignore = true)
-    public abstract RoleProduceDto roleProduceDto(RoleEntity roleEntity);
-
+    public abstract RoleProduceDto toRoleProduceDto(RoleEntity roleEntity);
 }
