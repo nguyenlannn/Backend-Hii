@@ -7,18 +7,14 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
-import java.util.Collection;
-
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
 @SuperBuilder
-public class UserProduceDto extends BaseProduceDto<Long> {
+public class DeviceProduceDto extends BaseProduceDto<Long> {
 
-    private String email;
+    private String userAgent;
 
-    private Collection<DeviceProduceDto> devices;
-
-    private Collection<RoleProduceDto> roles;
+    private UserProduceDto user;
 }

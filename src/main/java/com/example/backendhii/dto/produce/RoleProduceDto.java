@@ -1,6 +1,7 @@
 package com.example.backendhii.dto.produce;
 
 import com.example.backendhii.basess.BaseProduceDto;
+import com.example.backendhii.enums.RoleEnum;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,11 +15,9 @@ import java.util.Collection;
 @AllArgsConstructor
 @NoArgsConstructor
 @SuperBuilder
-public class UserProduceDto extends BaseProduceDto<Long> {
+public class RoleProduceDto extends BaseProduceDto<Long> {
 
-    private String email;
+    private RoleEnum name;
 
-    private Collection<DeviceProduceDto> devices;
-
-    private Collection<RoleProduceDto> roles;
+    private Collection<UserProduceDto> users;
 }
