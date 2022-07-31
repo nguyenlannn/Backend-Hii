@@ -27,6 +27,7 @@ import java.util.Objects;
 
 import static java.util.Arrays.stream;
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
+import static org.springframework.http.HttpHeaders.USER_AGENT;
 import static org.springframework.http.HttpStatus.UNAUTHORIZED;
 import static org.springframework.util.MimeTypeUtils.APPLICATION_JSON_VALUE;
 
@@ -65,15 +66,15 @@ public class FilterConfig extends OncePerRequestFilter {
                         UsernamePasswordAuthenticationToken authenticationToken =
                                 new UsernamePasswordAuthenticationToken(email, null, authorities);
                         SecurityContextHolder.getContext().setAuthentication(authenticationToken);
-//                        if (mDeviceRepository.existsByUserAgentAndAccessToken(
-//                                httpServletRequest.getHeader(USER_AGENT),
-//                                token)) {
-//                            filterChain.doFilter(httpServletRequest, httpServletResponse);
-//                        } else {
-//                            new ObjectMapper().writeValue(
-//                                    httpServletResponse.getOutputStream()
-//                                    , BaseResponseDto.error("expired version", 401));
-//                        }
+                        if (mDeviceRepository.existsByUserAgentAndAccessToken(
+                                httpServletRequest.getHeader(USER_AGENT),
+                                token)) {
+                            filterChain.doFilter(httpServletRequest, httpServletResponse);
+                        } else {
+                            new ObjectMapper().writeValue(
+                                    httpServletResponse.getOutputStream()
+                                    , BaseResponseDto.error("expired version", 401));
+                        }
                         filterChain.doFilter(httpServletRequest, httpServletResponse);
                     } else {
                         new ObjectMapper().writeValue(

@@ -8,4 +8,7 @@ import org.springframework.stereotype.Repository;
 public interface DeviceRepository extends JpaRepository<DeviceEntity, Long> {
 
     Boolean existsByUserAgentAndAccessToken(String userAgent, String accessToken);
+
+    DeviceEntity findByUserAgentAndAccessToken(String userAgent, String accessToken);
+    DeviceEntity findByUserAgentAndRefreshToken(String userAgent, String refreshToken);
 }
