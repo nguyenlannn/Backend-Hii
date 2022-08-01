@@ -20,8 +20,7 @@ public class UserChannelEntity extends BaseEntity {
 
     private String name;
 
-    @Column(columnDefinition = "bit")
-    private String isActive;
+    private Boolean isActive;
 
     @ManyToOne
     @JoinColumn(name = "user_id")
