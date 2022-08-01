@@ -54,6 +54,6 @@ public class UserEntity extends BaseEntity {
     @OneToMany(mappedBy = "user")
     private Collection<UserChannelEntity> userChanels;
 
-    @OneToMany(mappedBy = "sender")
+    @OneToMany(mappedBy = "user")
     private Collection<MessageEntity> messages;
 }
