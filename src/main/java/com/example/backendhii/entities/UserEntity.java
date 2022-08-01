@@ -39,8 +39,7 @@ public class UserEntity extends BaseEntity {
     @Column(columnDefinition = "text")
     private String avatar;
 
-    @Column(columnDefinition = "bit")
-    private String isActive;
+    private Boolean isActive;
 
     @ManyToMany
     @JoinTable(
@@ -50,11 +49,11 @@ public class UserEntity extends BaseEntity {
     private Collection<RoleEntity> roles;
 
     @OneToMany(mappedBy = "user")
-    private Collection<UserHistoryEntity> userHistoryEntities;
+    private Collection<UserHistoryEntity> userHistory;
 
     @OneToMany(mappedBy = "user")
-    private Collection<UserChannelEntity> userChanelEntities;
+    private Collection<UserChannelEntity> userChanel;
 
     @OneToMany(mappedBy = "sender")
-    private Collection<MessageEntity> messageEntities;
+    private Collection<MessageEntity> message;
 }

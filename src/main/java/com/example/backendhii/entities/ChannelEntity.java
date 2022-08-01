@@ -22,11 +22,11 @@ public class ChannelEntity extends BaseEntity {
     private String type;
 
     @OneToMany(mappedBy = "channel")
-    private Collection<UserChannelEntity> userChannelEntities;
+    private Collection<UserChannelEntity> userChannel;
 
     @OneToMany(mappedBy = "channel")
-    private Collection<ChannelHistoryEntity> channelHistoryEntities;
+    private Collection<ChannelHistoryEntity> channelHistory;
 
     @OneToMany(mappedBy = "channel")
-    private Collection<MessageEntity> messageEntities;
+    private Collection<MessageEntity> message;
 }
