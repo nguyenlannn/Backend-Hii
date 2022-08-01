@@ -49,11 +49,11 @@ public class UserEntity extends BaseEntity {
     private Collection<RoleEntity> roles;
 
     @OneToMany(mappedBy = "user")
-    private Collection<UserHistoryEntity> userHistory;
+    private Collection<UserHistoryEntity> userHistories;
 
     @OneToMany(mappedBy = "user")
-    private Collection<UserChannelEntity> userChanel;
+    private Collection<UserChannelEntity> userChanels;
 
     @OneToMany(mappedBy = "sender")
-    private Collection<MessageEntity> message;
+    private Collection<MessageEntity> messages;
 }
