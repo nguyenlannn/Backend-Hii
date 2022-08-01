@@ -1,4 +1,4 @@
-package com.example.backendhii.controllers;
+package com.example.backendhii.controllers.basic;
 
 import com.example.backendhii.basess.BaseResponseDto;
 import com.example.backendhii.config.TokenConfig;
