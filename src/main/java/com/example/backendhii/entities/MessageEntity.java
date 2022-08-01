@@ -30,6 +30,6 @@ public class MessageEntity extends BaseEntity {
     private ChannelEntity channel;
 
     @OneToMany(mappedBy = "message")
-    private Collection<Attach_MessageEntity> attachMessageEntities;
+    private Collection<AttachMessageEntity> attachMessageEntities;
 
 }

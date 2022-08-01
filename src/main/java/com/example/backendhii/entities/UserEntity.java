@@ -50,10 +50,10 @@ public class UserEntity extends BaseEntity {
     private Collection<RoleEntity> roles;
     //
     @OneToMany(mappedBy = "user")
-    private Collection<User_HistoryEntity> userHistoryEntities;
+    private Collection<UserHistoryEntity> userHistoryEntities;
 //
     @OneToMany(mappedBy = "user")
-    private Collection<User_ChannelEntity> userChanelEntities;
+    private Collection<UserChannelEntity> userChanelEntities;
 //
     @OneToMany(mappedBy = "sender")
     private Collection<MessageEntity> messageEntities;

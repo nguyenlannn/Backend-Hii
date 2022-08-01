@@ -16,7 +16,7 @@ import javax.persistence.ManyToOne;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity(name = "chanel_history")
-public class Channel_HistoryEntity extends BaseEntity {
+public class ChannelHistoryEntity extends BaseEntity {
 
     @Column(columnDefinition = "text")
     private String history;

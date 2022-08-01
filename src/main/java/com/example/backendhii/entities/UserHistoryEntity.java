@@ -18,7 +18,7 @@ import javax.persistence.ManyToOne;
 @AllArgsConstructor
 @SuperBuilder
 @Entity(name = "user_history")
-public class User_HistoryEntity extends BaseEntity {
+public class UserHistoryEntity extends BaseEntity {
 
     @Column(columnDefinition = "text")
     private String history;

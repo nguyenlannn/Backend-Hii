@@ -16,7 +16,7 @@ import javax.persistence.ManyToOne;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity(name = "attach_message")
-public class Attach_MessageEntity extends BaseEntity {
+public class AttachMessageEntity extends BaseEntity {
 
     @Column(columnDefinition = "text")
     private String path;

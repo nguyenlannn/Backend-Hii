@@ -16,7 +16,7 @@ import javax.persistence.ManyToOne;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity(name = "user_chanel")
-public class User_ChannelEntity extends BaseEntity {
+public class UserChannelEntity extends BaseEntity {
 
     private String name;
 
