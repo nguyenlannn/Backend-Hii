@@ -22,7 +22,7 @@ public class UserHistoryEntity extends BaseEntity {
 
     @Column(columnDefinition = "text")
     private String history;
-//
+
     @ManyToOne
     @JoinColumn(name = "user_id")
     private UserEntity user;

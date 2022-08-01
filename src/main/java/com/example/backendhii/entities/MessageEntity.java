@@ -20,16 +20,15 @@ public class MessageEntity extends BaseEntity {
     private String message;
 
     private String type;
-//
+
     @ManyToOne
     @JoinColumn(name = "sender_id")
     private UserEntity sender;
-//
+
     @ManyToOne
     @JoinColumn(name = "channel_id")
     private ChannelEntity channel;
 
     @OneToMany(mappedBy = "message")
     private Collection<AttachMessageEntity> attachMessageEntities;
-
 }

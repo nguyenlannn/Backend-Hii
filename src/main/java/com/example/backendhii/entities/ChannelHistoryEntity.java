@@ -20,7 +20,7 @@ public class ChannelHistoryEntity extends BaseEntity {
 
     @Column(columnDefinition = "text")
     private String history;
-//
+
     @ManyToOne
     @JoinColumn(name = "channel_id")
     private ChannelEntity channel;

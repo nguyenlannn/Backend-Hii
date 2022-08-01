@@ -22,11 +22,11 @@ public class UserChannelEntity extends BaseEntity {
 
     @Column(columnDefinition = "bit")
     private String isActive;
-//
+
     @ManyToOne
     @JoinColumn(name = "user_id")
     private UserEntity user;
-//
+
     @ManyToOne
     @JoinColumn(name = "channel_id")
     private ChannelEntity channel;

@@ -23,7 +23,7 @@ public class UserEntity extends BaseEntity {
 
     @Column(nullable = false, columnDefinition = "text")
     private String password;
-//
+
     @OneToMany(mappedBy = "user")
     private Collection<DeviceEntity> devices;
 
@@ -41,20 +41,20 @@ public class UserEntity extends BaseEntity {
 
     @Column(columnDefinition = "bit")
     private String isActive;
-//
+
     @ManyToMany
     @JoinTable(
             name = "user_role",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Collection<RoleEntity> roles;
-    //
+
     @OneToMany(mappedBy = "user")
     private Collection<UserHistoryEntity> userHistoryEntities;
-//
+
     @OneToMany(mappedBy = "user")
     private Collection<UserChannelEntity> userChanelEntities;
-//
+
     @OneToMany(mappedBy = "sender")
     private Collection<MessageEntity> messageEntities;
 }
