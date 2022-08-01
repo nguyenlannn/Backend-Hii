@@ -1,6 +1,5 @@
 package com.example.backendhii.services.impl;
 
-import com.example.backendhii.entities.RoleEntity;
 import com.example.backendhii.entities.UserEntity;
 import com.example.backendhii.enums.RoleEnum;
 import com.example.backendhii.repository.RoleRepository;
@@ -10,8 +9,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Service
 @Transactional
