@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import lombok.experimental.SuperBuilder;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -16,23 +15,19 @@ import javax.persistence.ManyToOne;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@SuperBuilder
-@Entity(name = "device")
-public class DeviceEntity extends BaseEntity {
+@Entity(name = "user_chanel")
+public class User_ChannelEntity extends BaseEntity {
 
-    @Column(nullable = false, columnDefinition = "text")
-    private String userAgent;
+    private String name;
 
-    @Column(nullable = false, columnDefinition = "text")
-    private String accessToken;
-
-    @Column(nullable = false, columnDefinition = "text")
-    private String refreshToken;
-
-    @Column(length = 6)
-    private String verificationCode;
-
+    @Column(columnDefinition = "bit")
+    private String isActive;
+//
     @ManyToOne
     @JoinColumn(name = "user_id")
     private UserEntity user;
+//
+    @ManyToOne
+    @JoinColumn(name = "channel_id")
+    private ChannelEntity channel;
 }

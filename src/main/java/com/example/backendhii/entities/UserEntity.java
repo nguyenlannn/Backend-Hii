@@ -23,14 +23,38 @@ public class UserEntity extends BaseEntity {
 
     @Column(nullable = false, columnDefinition = "text")
     private String password;
-
+//
     @OneToMany(mappedBy = "user")
     private Collection<DeviceEntity> devices;
 
+    @Column(length = 50)
+    private String firstName;
+
+    @Column(length = 50)
+    private String middleName;
+
+    @Column(length = 50)
+    private String lastName;
+
+    @Column(columnDefinition = "text")
+    private String avatar;
+
+    @Column(columnDefinition = "bit")
+    private String isActive;
+//
     @ManyToMany
     @JoinTable(
             name = "user_role",
             joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Collection<RoleEntity> roles;
+    //
+    @OneToMany(mappedBy = "user")
+    private Collection<User_HistoryEntity> userHistoryEntities;
+//
+    @OneToMany(mappedBy = "user")
+    private Collection<User_ChannelEntity> userChanelEntities;
+//
+    @OneToMany(mappedBy = "sender")
+    private Collection<MessageEntity> messageEntities;
 }

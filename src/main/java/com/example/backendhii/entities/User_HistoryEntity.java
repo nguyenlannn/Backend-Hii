@@ -17,21 +17,12 @@ import javax.persistence.ManyToOne;
 @NoArgsConstructor
 @AllArgsConstructor
 @SuperBuilder
-@Entity(name = "device")
-public class DeviceEntity extends BaseEntity {
+@Entity(name = "user_history")
+public class User_HistoryEntity extends BaseEntity {
 
-    @Column(nullable = false, columnDefinition = "text")
-    private String userAgent;
-
-    @Column(nullable = false, columnDefinition = "text")
-    private String accessToken;
-
-    @Column(nullable = false, columnDefinition = "text")
-    private String refreshToken;
-
-    @Column(length = 6)
-    private String verificationCode;
-
+    @Column(columnDefinition = "text")
+    private String history;
+//
     @ManyToOne
     @JoinColumn(name = "user_id")
     private UserEntity user;
