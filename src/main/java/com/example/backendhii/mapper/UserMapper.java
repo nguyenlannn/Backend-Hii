@@ -10,5 +10,6 @@ public abstract class UserMapper implements CustomMapper {
 
     @Mapping(target = "devices", ignore = true)
     @Mapping(target = "roles", ignore = true)
+
     public abstract UserProduceDto toUserProduceDto(UserEntity userEntity);
 }

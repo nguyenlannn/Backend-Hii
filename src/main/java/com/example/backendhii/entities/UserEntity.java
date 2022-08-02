@@ -52,7 +52,7 @@ public class UserEntity extends BaseEntity {
     private Collection<UserHistoryEntity> userHistories;
 
     @OneToMany(mappedBy = "user")
-    private Collection<UserChannelEntity> userChanels;
+    private Collection<UserChannelEntity> userChannels;
 
     @OneToMany(mappedBy = "user")
     private Collection<MessageEntity> messages;
