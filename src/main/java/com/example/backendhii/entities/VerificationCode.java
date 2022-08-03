@@ -7,29 +7,21 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.SuperBuilder;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @SuperBuilder
-@Entity(name = "device")
-public class DeviceEntity extends BaseEntity {
+@Entity(name = "verification_code")
+public class VerificationCode extends BaseEntity {
 
-    @Column(nullable = false, columnDefinition = "text")
-    private String userAgent;
+    private Integer code;
 
-    @Column(nullable = false, columnDefinition = "text")
-    private String accessToken;
-
-    @Column(nullable = false, columnDefinition = "text")
-    private String refreshToken;
-
-    @ManyToOne
+    @OneToOne
     @JoinColumn(name = "user_id")
     private UserEntity user;
 }
