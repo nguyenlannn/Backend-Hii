@@ -1,9 +1,10 @@
 package com.example.backendhii.dto.produce;
 
 import com.example.backendhii.basess.BaseProduceDto;
+import com.example.backendhii.entities.ChannelHistoryEntity;
 import com.example.backendhii.entities.MessageEntity;
 import com.example.backendhii.entities.UserChannelEntity;
-import com.example.backendhii.entities.UserHistoryEntity;
+import com.example.backendhii.enums.ChannelEnum;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,17 +18,15 @@ import java.util.Collection;
 @AllArgsConstructor
 @NoArgsConstructor
 @SuperBuilder
-public class UserProduceDto extends BaseProduceDto<Long> {
+public class ChannelProduceDto extends BaseProduceDto<Long> {
 
-    private String email;
+    private String name;
 
-    private Collection<DeviceProduceDto> devices;
-
-    private Collection<RoleProduceDto> roles;
-
-    private Collection<UserHistoryEntity> userHistories;
+    private ChannelEnum type;
 
     private Collection<UserChannelEntity> userChannels;
+
+    private Collection<ChannelHistoryEntity> channelHistories;
 
     private Collection<MessageEntity> messages;
 }
