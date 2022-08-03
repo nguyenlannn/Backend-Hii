@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Random;
+
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("${BASE_API}/basic/user")
@@ -18,9 +20,15 @@ public class UserController {
 
     @PostMapping
     public ResponseEntity<BaseResponseDto> createRegister(@RequestBody UserConsumeDto userConsumeDto) {
+
+        Random random = new Random();
+        int x = random.nextInt(1000000);
+        System.out.println("X=" + x);
+
         return ResponseEntity.status(HttpStatus.CREATED).body(BaseResponseDto.success
-                (mUserService.register(userConsumeDto),"successful"));
+                (mUserService.register(userConsumeDto), "successful"));
     }
+}
 //    @PostMapping("/{abc}")
 //    public ResponseEntity<BaseResponseDto> register(@PathVariable Long abc){
 //    }
@@ -30,4 +38,4 @@ public class UserController {
 //                                                    @RequestParam String cuong,
 //                                                    @PathVariable Long id) {
 //    }
-}
+

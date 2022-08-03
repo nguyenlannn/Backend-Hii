@@ -13,5 +13,6 @@ public abstract class UserMapper implements CustomMapper {
     @Mapping(target = "userHistories", ignore = true)
     @Mapping(target = "userChannels", ignore = true)
     @Mapping(target = "messages", ignore = true)
+    //@Mapping(target = "user",ignore = true)
     public abstract UserProduceDto toUserProduceDto(UserEntity userEntity);
 }
