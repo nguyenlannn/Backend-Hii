@@ -3,7 +3,6 @@ package com.example.backendhii.basess;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;
 import lombok.Data;
-import org.springframework.http.ResponseEntity;
 
 @Data
 @Builder
