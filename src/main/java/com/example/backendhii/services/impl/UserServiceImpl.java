@@ -5,17 +5,15 @@ import com.example.backendhii.dto.produce.UserProduceDto;
 import com.example.backendhii.entities.UserEntity;
 import com.example.backendhii.enums.RoleEnum;
 import com.example.backendhii.exceptions.BadRequestException;
-import com.example.backendhii.mapper.RoleMapper;
 import com.example.backendhii.mapper.UserMapper;
 import com.example.backendhii.repository.RoleRepository;
 import com.example.backendhii.repository.UserRepository;
 import com.example.backendhii.services.UserService;
+import com.example.backendhii.services.VerificationCodeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -28,7 +26,7 @@ public class UserServiceImpl implements UserService {
 
     private final UserMapper mUserMapper;
 
-    private final RoleMapper mRoleMapper;
+    private final VerificationCodeService mVerificationCodeService;
 
     public void createAdmin(UserEntity userEntity) {
         userEntity.setRoles(mRoleRepository.findAll());
@@ -45,18 +43,15 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserProduceDto register(UserConsumeDto userConsumeDto) {
         UserEntity userEntity = userConsumeDto.toUserEntity();
-
         if (mUserRepository.existsByEmail(userConsumeDto.getEmail())) {
-            throw new BadRequestException("Email already exist");
+            throw new BadRequestException("email already exist");
         }
         userEntity.setRoles(mRoleRepository.findByName(RoleEnum.ROLE_USER));
         userEntity.setPassword(mPasswordEncoder.encode(userEntity.getPassword()));
+        userEntity.setIsActive(false);
         mUserRepository.save(userEntity);
 
-        UserProduceDto userProduceDto = mUserMapper.toUserProduceDto(userEntity);
-
-        userProduceDto.setRoles(userEntity.getRoles().stream()
-                .map(mRoleMapper::toRoleProduceDto).collect(Collectors.toList()));
-        return userProduceDto;
+        mVerificationCodeService.save(userEntity);
+        return mUserMapper.toUserProduceDto(userEntity);
     }
 }

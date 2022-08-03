@@ -58,5 +58,5 @@ public class UserEntity extends BaseEntity {
     private Collection<MessageEntity> messages;
 
     @OneToOne(mappedBy = "user")
-    private VerificationCode verificationCode;
+    private VerificationCodeEntity verificationCode;
 }
