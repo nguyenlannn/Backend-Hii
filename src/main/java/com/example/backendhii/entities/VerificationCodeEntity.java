@@ -17,7 +17,7 @@ import javax.persistence.OneToOne;
 @AllArgsConstructor
 @SuperBuilder
 @Entity(name = "verification_code")
-public class VerificationCode extends BaseEntity {
+public class VerificationCodeEntity extends BaseEntity {
 
     private Integer code;
 
