@@ -3,3 +3,17 @@ spring:
     url: 'jdbc:mysql://54.254.115.118:3306/hii?createDatabaseIfNotExist=true'
     username: 'hii'
     password: '$2a$10$iuz5ITMGoxt7NxFzRYH2r.Ubl400fV4MK/9FjlS7iKxrmCKgRa8b2'
+  mail:
+    host: 'smtp.gmail.com'
+    username: 'Lannhatthuy@gmail.com'
+    password: 'iguhvidnouiyjoix'
+    properties:
+      mail:
+        transport:
+          protocol: 'smtp'
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+        debug: true
+    port: 587
