@@ -4,7 +4,7 @@ JWT_TIME_REFRESH_TOKEN: 31536000000
 BASE_API: '/api/v1'
 spring:
   profiles:
-    active: dev
+    active: local
   jpa:
     hibernate:
       ddl-auto: update
