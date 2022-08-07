@@ -50,7 +50,6 @@ public class UserServiceImpl implements UserService {
         userEntity.setPassword(mPasswordEncoder.encode(userEntity.getPassword()));
         userEntity.setIsActive(false);
         mUserRepository.save(userEntity);
-
         mVerificationCodeService.save(userEntity);
         return mUserMapper.toUserProduceDto(userEntity);
     }
