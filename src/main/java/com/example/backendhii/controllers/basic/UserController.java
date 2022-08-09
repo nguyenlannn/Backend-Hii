@@ -19,8 +19,14 @@ public class UserController {
     private final UserService mUserService;
 
     @PostMapping
-    public ResponseEntity<BaseResponseDto> createRegister(@RequestBody UserConsumeDto userConsumeDto) {
+    public ResponseEntity<BaseResponseDto> register(@RequestBody UserConsumeDto userConsumeDto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(BaseResponseDto.success
                 (mUserService.register(userConsumeDto), "successful"));
+    }
+
+    @PostMapping
+    public ResponseEntity<BaseResponseDto> activeAccount(@RequestBody Integer verificationCode){
+
+        return ResponseEntity.
     }
 }
