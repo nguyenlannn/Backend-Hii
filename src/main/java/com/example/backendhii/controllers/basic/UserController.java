@@ -1,6 +1,7 @@
 package com.example.backendhii.controllers.basic;
 
 import com.example.backendhii.basess.BaseResponseDto;
+import com.example.backendhii.dto.consume.ActiveUserConsumeDto;
 import com.example.backendhii.dto.consume.UserConsumeDto;
 import com.example.backendhii.services.UserService;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +22,12 @@ public class UserController {
     @PostMapping
     public ResponseEntity<BaseResponseDto> register(@RequestBody UserConsumeDto userConsumeDto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(BaseResponseDto.success
-                (mUserService.register(userConsumeDto), "successful"));
+                (mUserService.register(userConsumeDto), "register successful"));
+    }
+
+    @PostMapping("/active")
+    public ResponseEntity<BaseResponseDto> activeUser(@RequestBody ActiveUserConsumeDto activeUserConsumeDto){
+
     }
 
     @PostMapping
