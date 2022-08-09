@@ -31,12 +31,14 @@ public class UserServiceImpl implements UserService {
     public void createAdmin(UserEntity userEntity) {
         userEntity.setRoles(mRoleRepository.findAll());
         userEntity.setPassword(mPasswordEncoder.encode(userEntity.getPassword()));
+        userEntity.setIsActive(true);
         mUserRepository.save(userEntity);
     }
 
     public void createUser(UserEntity userEntity) {
         userEntity.setRoles(mRoleRepository.findByName(RoleEnum.ROLE_USER));
         userEntity.setPassword(mPasswordEncoder.encode(userEntity.getPassword()));
+        userEntity.setIsActive(true);
         mUserRepository.save(userEntity);
     }
 
