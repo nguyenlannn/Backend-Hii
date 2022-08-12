@@ -1,13 +1,16 @@
 package com.example.backendhii.services.impl;
 
+import com.example.backendhii.dto.consume.ActiveUserConsumeDto;
 import com.example.backendhii.dto.consume.UserConsumeDto;
 import com.example.backendhii.dto.produce.UserProduceDto;
 import com.example.backendhii.entities.UserEntity;
+import com.example.backendhii.entities.VerificationCodeEntity;
 import com.example.backendhii.enums.RoleEnum;
 import com.example.backendhii.exceptions.BadRequestException;
 import com.example.backendhii.mapper.UserMapper;
 import com.example.backendhii.repository.RoleRepository;
 import com.example.backendhii.repository.UserRepository;
+import com.example.backendhii.repository.VerificationCodeRepository;
 import com.example.backendhii.services.UserService;
 import com.example.backendhii.services.VerificationCodeService;
 import lombok.RequiredArgsConstructor;
@@ -27,6 +30,8 @@ public class UserServiceImpl implements UserService {
     private final UserMapper mUserMapper;
 
     private final VerificationCodeService mVerificationCodeService;
+
+    private final VerificationCodeEntity verificationCodeEntity;
 
     public void createAdmin(UserEntity userEntity) {
         userEntity.setRoles(mRoleRepository.findAll());
@@ -56,5 +61,10 @@ public class UserServiceImpl implements UserService {
         return mUserMapper.toUserProduceDto(userEntity);
     }
 
+    @Override
+    public UserProduceDto activeUser(ActiveUserConsumeDto activeUserConsumeDto) {
 
+        return null;
+    }
 }
+
