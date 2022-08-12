@@ -8,5 +8,4 @@ public interface UserService {
 
     UserProduceDto register(UserConsumeDto userConsumeDto);
 
-    UserProduceDto activeUser(ActiveUserConsumeDto activeUserConsumeDto);
 }

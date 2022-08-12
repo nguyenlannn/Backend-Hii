@@ -10,7 +10,6 @@ import com.example.backendhii.exceptions.BadRequestException;
 import com.example.backendhii.mapper.UserMapper;
 import com.example.backendhii.repository.RoleRepository;
 import com.example.backendhii.repository.UserRepository;
-import com.example.backendhii.repository.VerificationCodeRepository;
 import com.example.backendhii.services.UserService;
 import com.example.backendhii.services.VerificationCodeService;
 import lombok.RequiredArgsConstructor;
@@ -30,9 +29,6 @@ public class UserServiceImpl implements UserService {
     private final UserMapper mUserMapper;
 
     private final VerificationCodeService mVerificationCodeService;
-
-    private final VerificationCodeEntity verificationCodeEntity;
-
     public void createAdmin(UserEntity userEntity) {
         userEntity.setRoles(mRoleRepository.findAll());
         userEntity.setPassword(mPasswordEncoder.encode(userEntity.getPassword()));
@@ -59,12 +55,6 @@ public class UserServiceImpl implements UserService {
         mUserRepository.save(userEntity);
         mVerificationCodeService.save(userEntity);
         return mUserMapper.toUserProduceDto(userEntity);
-    }
-
-    @Override
-    public UserProduceDto activeUser(ActiveUserConsumeDto activeUserConsumeDto) {
-
-        return null;
     }
 }
 
