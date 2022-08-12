@@ -26,7 +26,8 @@ public class UserController {
     }
 
     @PostMapping("/active")
-    public ResponseEntity<BaseResponseDto> activeUser(@RequestBody ActiveUserConsumeDto activeUserConsumeDto){
-
+    public ResponseEntity<BaseResponseDto> activeUser(@RequestBody ActiveUserConsumeDto activeUserConsumeDto) {
+        mUserService.active(activeUserConsumeDto);
+        return ResponseEntity.ok().body(BaseResponseDto.success("active user successful"));
     }
 }
