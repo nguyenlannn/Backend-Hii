@@ -12,4 +12,6 @@ import java.io.Serializable;
 public class ActiveUserConsumeDto implements Serializable {
 
     private Integer code;
+
+    private String email;
 }

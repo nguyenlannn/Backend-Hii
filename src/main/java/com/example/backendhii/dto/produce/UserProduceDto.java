@@ -42,4 +42,6 @@ public class UserProduceDto extends BaseProduceDto<Long> {
     private Collection<UserChannelEntity> userChannels;
 
     private Collection<MessageEntity> messages;
+
+    private Boolean isActive;
 }

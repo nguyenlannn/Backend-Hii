@@ -28,10 +28,13 @@ public class UserDetailServiceConfig implements UserDetailsService {
         UserEntity userEntity = mUserRepository.findByEmail(email);
         if (Objects.isNull(userEntity)) {
             throw new BadRequestException(email + " not found in database");
-        } else {
-            Collection<SimpleGrantedAuthority> authorities = userEntity.getRoles().stream().map(roleEntity ->
-                    new SimpleGrantedAuthority(roleEntity.getName().toString())).collect(Collectors.toList());
-            return new User(userEntity.getEmail(), userEntity.getPassword(), authorities);
         }
+        if (!userEntity.getIsActive()) {
+            throw new BadRequestException("user not activated");
+        }
+        Collection<SimpleGrantedAuthority> authorities = userEntity.getRoles().stream().map(roleEntity ->
+                new SimpleGrantedAuthority(roleEntity.getName().toString())).collect(Collectors.toList());
+        return new User(userEntity.getEmail(), userEntity.getPassword(), authorities);
+
     }
 }
