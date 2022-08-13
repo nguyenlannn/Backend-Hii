@@ -8,8 +8,5 @@ public interface UserService {
 
     UserProduceDto register(UserConsumeDto userConsumeDto);
 
-<<<<<<< HEAD
-=======
     void active(ActiveUserConsumeDto activeUserConsumeDto);
->>>>>>> 46d84e5de92ee450cdbff3aa405213c5c0a965bc
 }
