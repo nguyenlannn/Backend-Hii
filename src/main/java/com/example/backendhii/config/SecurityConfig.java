@@ -66,7 +66,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements Audi
         http.csrf().disable();
         http.sessionManagement().sessionCreationPolicy(STATELESS);
         http.authorizeRequests().antMatchers(BASE_API + "/basic/**").permitAll();
-        http.authorizeRequests().antMatchers(BASE_API + "/test-user/**").hasAnyAuthority(RoleEnum.ROLE_USER.toString());
+        http.authorizeRequests().antMatchers(BASE_API + "/user/**").hasAnyAuthority(RoleEnum.ROLE_USER.toString());
         http.authorizeRequests().antMatchers(BASE_API + "/test-admin/**").hasAnyAuthority(RoleEnum.ROLE_ADMIN.toString());
         http.authorizeRequests().anyRequest().authenticated();
         http.addFilterBefore(mFilterConfig, UsernamePasswordAuthenticationFilter.class);
