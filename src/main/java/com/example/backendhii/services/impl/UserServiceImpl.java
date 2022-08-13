@@ -1,6 +1,11 @@
 package com.example.backendhii.services.impl;
 
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.JWTVerifier;
+import com.auth0.jwt.algorithms.Algorithm;
+import com.auth0.jwt.interfaces.DecodedJWT;
 import com.example.backendhii.dto.consume.ActiveUserConsumeDto;
+import com.example.backendhii.dto.consume.EditConsumeDto;
 import com.example.backendhii.dto.consume.UserConsumeDto;
 import com.example.backendhii.dto.produce.UserProduceDto;
 import com.example.backendhii.entities.UserEntity;
@@ -13,12 +18,15 @@ import com.example.backendhii.repository.UserRepository;
 import com.example.backendhii.services.UserService;
 import com.example.backendhii.services.VerificationCodeService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
-import java.time.ZoneId;
+import javax.servlet.http.HttpServletRequest;
+import java.util.Objects;
+
+import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
 @Service
 @Transactional
@@ -32,6 +40,10 @@ public class UserServiceImpl implements UserService {
     private final UserMapper mUserMapper;
 
     private final VerificationCodeService mVerificationCodeService;
+
+    @Value("${JWT_SECRET}")
+    private String JWT_SECRET;
+
     public void createAdmin(UserEntity userEntity) {
         userEntity.setRoles(mRoleRepository.findAll());
         userEntity.setPassword(mPasswordEncoder.encode(userEntity.getPassword()));
@@ -75,6 +87,37 @@ public class UserServiceImpl implements UserService {
 //        if(LocalDateTime.now())
         userEntity.setIsActive(true);
         mUserRepository.save(userEntity);
+    }
+
+    @Override
+    public String getEmailFromAccessToken(HttpServletRequest request) {
+        String authorizationHeader = request.getHeader(AUTHORIZATION);
+        String token = authorizationHeader.substring("Bearer ".length());
+        Algorithm algorithm = Algorithm.HMAC256(JWT_SECRET.getBytes());
+        JWTVerifier verifier = JWT.require(algorithm).build();
+        DecodedJWT decodedJWT = verifier.verify(token);
+        return decodedJWT.getSubject();
+    }
+
+    @Override
+    public UserEntity getUserFromAccessToken(HttpServletRequest request) {
+        String authorizationHeader = request.getHeader(AUTHORIZATION);
+        String token = authorizationHeader.substring("Bearer ".length());
+        Algorithm algorithm = Algorithm.HMAC256(JWT_SECRET.getBytes());
+        JWTVerifier verifier = JWT.require(algorithm).build();
+        DecodedJWT decodedJWT = verifier.verify(token);
+        String email = decodedJWT.getSubject();
+        return mUserRepository.findByEmail(email);
+    }
+
+    @Override
+    public UserProduceDto editUser(EditConsumeDto editConsumeDto, HttpServletRequest request) {
+        UserEntity userEntity=mUserRepository.findByEmail(getEmailFromAccessToken(request));
+        userEntity.setFirstName(editConsumeDto.getFirstName());
+        userEntity.setMiddleName(editConsumeDto.getMiddleName());
+        userEntity.setLastName(editConsumeDto.getLastName());
+        mUserRepository.save(userEntity);
+        return mUserMapper.toUserProduceDto(userEntity);
     }
 }
 
