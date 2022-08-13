@@ -5,9 +5,11 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.example.backendhii.dto.consume.ActiveUserConsumeDto;
+import com.example.backendhii.dto.consume.EditConsumeDto;
 import com.example.backendhii.dto.consume.UserConsumeDto;
 import com.example.backendhii.dto.produce.UserProduceDto;
 import com.example.backendhii.entities.UserEntity;
+import com.example.backendhii.entities.VerificationCodeEntity;
 import com.example.backendhii.enums.RoleEnum;
 import com.example.backendhii.exceptions.BadRequestException;
 import com.example.backendhii.mapper.UserMapper;
@@ -107,4 +109,15 @@ public class UserServiceImpl implements UserService {
         String email = decodedJWT.getSubject();
         return mUserRepository.findByEmail(email);
     }
+
+    @Override
+    public UserProduceDto editUser(EditConsumeDto editConsumeDto, HttpServletRequest request) {
+        UserEntity userEntity=mUserRepository.findByEmail(getEmailFromAccessToken(request));
+        userEntity.setFirstName(editConsumeDto.getFirstName());
+        userEntity.setMiddleName(editConsumeDto.getMiddleName());
+        userEntity.setLastName(editConsumeDto.getLastName());
+        mUserRepository.save(userEntity);
+        return mUserMapper.toUserProduceDto(userEntity);
+    }
 }
+

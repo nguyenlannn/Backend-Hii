@@ -15,12 +15,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("${BASE_API}/basic/user")
-public class UserController {
+public class BasicUserController {
 
     private final UserService mUserService;
 
     @PostMapping
-    public ResponseEntity<BaseResponseDto> createRegister(@RequestBody UserConsumeDto userConsumeDto) {
+    public ResponseEntity<BaseResponseDto> register(@RequestBody UserConsumeDto userConsumeDto) {
         return ResponseEntity.status(HttpStatus.CREATED).body(BaseResponseDto.success
                 (mUserService.register(userConsumeDto), "register successful"));
     }

@@ -21,6 +21,16 @@ public class UserProduceDto extends BaseProduceDto<Long> {
 
     private String email;
 
+    private String firstName;
+
+    private String middleName;
+
+    private String lastName;
+
+    private String avatar;
+
+    private Boolean isActive;
+
     private Collection<DeviceProduceDto> devices;
 
     private Collection<RoleProduceDto> roles;
@@ -30,6 +40,4 @@ public class UserProduceDto extends BaseProduceDto<Long> {
     private Collection<UserChannelEntity> userChannels;
 
     private Collection<MessageEntity> messages;
-
-    private Boolean isActive;
 }
