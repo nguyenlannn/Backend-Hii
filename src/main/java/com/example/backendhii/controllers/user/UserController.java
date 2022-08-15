@@ -1,7 +1,7 @@
 package com.example.backendhii.controllers.user;
 
 import com.example.backendhii.basess.BaseResponseDto;
-import com.example.backendhii.dto.consume.EditConsumeDto;
+import com.example.backendhii.dto.consume.EditUserConsumeDto;
 import com.example.backendhii.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -20,9 +20,9 @@ public class UserController {
     private final UserService mUserService;
 
     @PatchMapping
-    public ResponseEntity<BaseResponseDto> editUser(@RequestBody EditConsumeDto editConsumeDto,
-                                                    HttpServletRequest request) {
-        return ResponseEntity.ok(BaseResponseDto.success
+    public ResponseEntity<BaseResponseDto> editUser(
+            @RequestBody EditUserConsumeDto editConsumeDto, HttpServletRequest request) {
+        return ResponseEntity.ok().body(BaseResponseDto.success
                 (mUserService.editUser(editConsumeDto, request), "edit user successful"));
     }
 }

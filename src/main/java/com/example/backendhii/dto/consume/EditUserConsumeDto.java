@@ -9,7 +9,11 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 @Builder
-public class EditConsumeDto implements Serializable {
+public class EditUserConsumeDto implements Serializable {
+
+    private String password;
+
+    private String newPassword;
 
     private String firstName;
 
