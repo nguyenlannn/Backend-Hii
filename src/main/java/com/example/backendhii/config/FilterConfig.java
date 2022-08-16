@@ -75,7 +75,6 @@ public class FilterConfig extends OncePerRequestFilter {
                                     httpServletResponse.getOutputStream()
                                     , BaseResponseDto.error("expired version", 401));
                         }
-                        filterChain.doFilter(httpServletRequest, httpServletResponse);
                     } else {
                         new ObjectMapper().writeValue(
                                 httpServletResponse.getOutputStream()
