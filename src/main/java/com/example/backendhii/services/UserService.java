@@ -4,8 +4,10 @@ import com.example.backendhii.dto.consume.ActiveUserConsumeDto;
 import com.example.backendhii.dto.consume.EditUserConsumeDto;
 import com.example.backendhii.dto.consume.UserConsumeDto;
 import com.example.backendhii.dto.produce.UserProduceDto;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 
 public interface UserService {
 
@@ -13,7 +15,9 @@ public interface UserService {
 
     void active(ActiveUserConsumeDto activeUserConsumeDto);
 
-    String getEmailFromAccessToken(HttpServletRequest request);
+    String getEmailFromAccessToken();
 
-    UserProduceDto editUser(EditUserConsumeDto editConsumeDto, HttpServletRequest request);
+    UserProduceDto editUser(EditUserConsumeDto editConsumeDto);
+
+    UserProduceDto uploadImage(MultipartFile multipartFile) throws IOException;
 }
