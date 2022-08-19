@@ -29,6 +29,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -57,8 +58,8 @@ public class UserServiceImpl implements UserService {
     @Value("${JWT_SECRET}")
     private String JWT_SECRET;
 
-    @Value("${URL}")
-    private String URL;
+    @Value("${URL_AVATAR}")
+    private String URL_AVATAR;
 
     public void createAdmin(UserEntity userEntity) {
         userEntity.setRoles(mRoleRepository.findAll());
@@ -146,26 +147,23 @@ public class UserServiceImpl implements UserService {
     public UserProduceDto uploadImage(MultipartFile multipartFile) throws IOException {
         UserEntity userEntity = mUserRepository.findByEmail(getEmailFromAccessToken());
         String fileName = multipartFile.getOriginalFilename();
-        System.out.println(fileName);
-        String[] lan = fileName.split("\\.");
-
-        if (!lan[1].equalsIgnoreCase("JPG") &&
-                !lan[1].equalsIgnoreCase("PNG"))
-        {
+        int position = fileName.lastIndexOf(".");
+        String s = fileName.substring(position + 1);
+        if (!s.equalsIgnoreCase("JPG") && !s.equalsIgnoreCase("PNG")) {
             throw new BadRequestException("Incorrect file format");
         }
-            String uploadDir = URL;
-            Path uploadPath = Paths.get(uploadDir);
-            if (!Files.exists(uploadPath)) {
-                Files.createDirectories(uploadPath);
-            }
-            try (InputStream inputStream = multipartFile.getInputStream()) {
-                Path filePath = uploadPath.resolve(fileName);
-                Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
-            } catch (Exception ignored) {
-
-            }
-        userEntity.setAvatar(URL + fileName);
+        String uploadDir = URL_AVATAR;
+        Path uploadPath = Paths.get(uploadDir);
+        if (!Files.exists(uploadPath)) {
+            Files.createDirectories(uploadPath);
+        }
+        try (InputStream inputStream = multipartFile.getInputStream()) {
+            Path filePath = uploadPath.resolve(userEntity.getId() + ".PNG");
+            Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
+        } catch (Exception ignored) {
+            throw new BadRequestException("Update image fail");
+        }
+        userEntity.setAvatar(URL_AVATAR + "/" + userEntity.getId() + ".PNG");
         mUserRepository.save(userEntity);
         return mUserMapper.toUserProduceDto(userEntity);
     }
