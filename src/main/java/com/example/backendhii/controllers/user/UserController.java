@@ -5,12 +5,11 @@ import com.example.backendhii.dto.consume.EditUserConsumeDto;
 import com.example.backendhii.services.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 
 @RequiredArgsConstructor
 @RestController
@@ -23,6 +22,11 @@ public class UserController {
     public ResponseEntity<BaseResponseDto> editUser(
             @RequestBody EditUserConsumeDto editConsumeDto, HttpServletRequest request) {
         return ResponseEntity.ok().body(BaseResponseDto.success
-                (mUserService.editUser(editConsumeDto, request), "edit user successful"));
+                (mUserService.editUser(editConsumeDto), "edit user successful"));
+    }
+    @PostMapping
+    public ResponseEntity<BaseResponseDto> uploadImage(@RequestParam MultipartFile avatar) throws IOException {
+        return ResponseEntity.ok().body(BaseResponseDto.success
+                (mUserService.uploadImage(avatar),"upload avatar successful"));
     }
 }

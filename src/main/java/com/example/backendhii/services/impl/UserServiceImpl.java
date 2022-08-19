@@ -23,9 +23,16 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import com.example.backendhii.dto.consume.LoginConsumeDto;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
@@ -44,9 +51,14 @@ public class UserServiceImpl implements UserService {
 
     private final AuthenticationManager authenticationManager;
 
+    private final HttpServletRequest request;
+
 
     @Value("${JWT_SECRET}")
     private String JWT_SECRET;
+
+    @Value("${URL}")
+    private String URL;
 
     public void createAdmin(UserEntity userEntity) {
         userEntity.setRoles(mRoleRepository.findAll());
@@ -94,7 +106,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String getEmailFromAccessToken(HttpServletRequest request) {
+    public String getEmailFromAccessToken() {
         String authorizationHeader = request.getHeader(AUTHORIZATION);
         String token = authorizationHeader.substring("Bearer ".length());
         Algorithm algorithm = Algorithm.HMAC256(JWT_SECRET.getBytes());
@@ -105,9 +117,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserProduceDto editUser(EditUserConsumeDto editConsumeDto, HttpServletRequest request) {
-        UserEntity userEntity = mUserRepository.findByEmail(getEmailFromAccessToken(request));
-        if (editConsumeDto.getNewPassword()!=null){
+    public UserProduceDto editUser(EditUserConsumeDto editConsumeDto) {
+        UserEntity userEntity = mUserRepository.findByEmail(getEmailFromAccessToken());
+        if (editConsumeDto.getNewPassword() != null) {
             try {
                 authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(
                         userEntity.getEmail(),
@@ -115,7 +127,7 @@ public class UserServiceImpl implements UserService {
             } catch (Exception e) {
                 throw new BadRequestException("incorrect password");
             }
-        userEntity.setPassword(mPasswordEncoder.encode(editConsumeDto.getNewPassword()));
+            userEntity.setPassword(mPasswordEncoder.encode(editConsumeDto.getNewPassword()));
         }
         if (editConsumeDto.getFirstName() != null) {
             userEntity.setFirstName(editConsumeDto.getFirstName());
@@ -126,6 +138,34 @@ public class UserServiceImpl implements UserService {
         if (editConsumeDto.getLastName() != null) {
             userEntity.setLastName(editConsumeDto.getLastName());
         }
+        mUserRepository.save(userEntity);
+        return mUserMapper.toUserProduceDto(userEntity);
+    }
+
+    @Override
+    public UserProduceDto uploadImage(MultipartFile multipartFile) throws IOException {
+        UserEntity userEntity = mUserRepository.findByEmail(getEmailFromAccessToken());
+        String fileName = multipartFile.getOriginalFilename();
+        System.out.println(fileName);
+        String[] lan = fileName.split("\\.");
+
+        if (!lan[1].equalsIgnoreCase("JPG") &&
+                !lan[1].equalsIgnoreCase("PNG"))
+        {
+            throw new BadRequestException("Incorrect file format");
+        }
+            String uploadDir = URL;
+            Path uploadPath = Paths.get(uploadDir);
+            if (!Files.exists(uploadPath)) {
+                Files.createDirectories(uploadPath);
+            }
+            try (InputStream inputStream = multipartFile.getInputStream()) {
+                Path filePath = uploadPath.resolve(fileName);
+                Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
+            } catch (Exception ignored) {
+
+            }
+        userEntity.setAvatar(URL + fileName);
         mUserRepository.save(userEntity);
         return mUserMapper.toUserProduceDto(userEntity);
     }
