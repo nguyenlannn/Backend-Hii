@@ -6,7 +6,6 @@ import com.example.backendhii.dto.consume.UserConsumeDto;
 import com.example.backendhii.dto.produce.UserProduceDto;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
 public interface UserService {
