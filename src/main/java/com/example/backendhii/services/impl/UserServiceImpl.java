@@ -150,21 +150,20 @@ public class UserServiceImpl implements UserService {
         String[] lan = fileName.split("\\.");
 
         if (!lan[1].equalsIgnoreCase("JPG") &&
-                !lan[1].equalsIgnoreCase("PNG"))
-        {
+                !lan[1].equalsIgnoreCase("PNG")) {
             throw new BadRequestException("Incorrect file format");
         }
-            String uploadDir = URL;
-            Path uploadPath = Paths.get(uploadDir);
-            if (!Files.exists(uploadPath)) {
-                Files.createDirectories(uploadPath);
-            }
-            try (InputStream inputStream = multipartFile.getInputStream()) {
-                Path filePath = uploadPath.resolve(fileName);
-                Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
-            } catch (Exception ignored) {
+        String uploadDir = URL;
+        Path uploadPath = Paths.get(uploadDir);
+        if (!Files.exists(uploadPath)) {
+            Files.createDirectories(uploadPath);
+        }
+        try (InputStream inputStream = multipartFile.getInputStream()) {
+            Path filePath = uploadPath.resolve(fileName);
+            Files.copy(inputStream, filePath, StandardCopyOption.REPLACE_EXISTING);
+        } catch (Exception ignored) {
 
-            }
+        }
         userEntity.setAvatar(URL + fileName);
         mUserRepository.save(userEntity);
         return mUserMapper.toUserProduceDto(userEntity);
