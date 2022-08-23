@@ -24,7 +24,7 @@ public class UserController {
         return ResponseEntity.ok().body(BaseResponseDto.success
                 (mUserService.editUser(editConsumeDto), "edit user successful"));
     }
-    @PostMapping
+    @PostMapping("/update-avatar")
     public ResponseEntity<BaseResponseDto> uploadImage(@RequestParam MultipartFile avatar) throws IOException {
         return ResponseEntity.ok().body(BaseResponseDto.success
                 (mUserService.uploadImage(avatar),"upload avatar successful"));

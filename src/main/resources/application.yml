@@ -1,7 +1,7 @@
 JWT_SECRET: '9AEW57AzDzHiamTadS3zr3g33g34grgb3MxAưewe0/xJEsx7RpYRorLUDEUugrQ=='
 JWT_TIME_ACCESS_TOKEN: 3600000
 JWT_TIME_REFRESH_TOKEN: 31536000000
-URL: 'C:/Users/User/Desktop/'
+URL_AVATAR: 'D:/avatar'
 BASE_API: '/api/v1'
 spring:
   profiles:

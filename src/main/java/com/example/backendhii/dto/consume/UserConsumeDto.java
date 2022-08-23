@@ -22,6 +22,10 @@ public class UserConsumeDto implements Serializable {
 
     private  String lastName;
 
+    private Integer code;
+
+    private String newPassword;
+
     public  UserEntity toUserEntity() {
         return UserEntity.builder()
                 .email(email)
