@@ -98,14 +98,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public void active(ActiveUserConsumeDto activeUserConsumeDto) {
         UserEntity userEntity = mUserRepository.findByEmail(activeUserConsumeDto.getEmail());
-        if (userEntity == null) {
+        if (Objects.isNull(userEntity)) {
             throw new BadRequestException("user does not exist");
         }
         if (userEntity.getIsActive()) {
             throw new BadRequestException("user activated");
         }
-        System.out.println(activeUserConsumeDto.getCode());
-        System.out.println(userEntity.getVerificationCode().getCode());
         if (!Objects.equals(activeUserConsumeDto.getCode(), userEntity.getVerificationCode().getCode())) {
             throw new BadRequestException("wrong verification code");
         }
@@ -185,7 +183,8 @@ public class UserServiceImpl implements UserService {
         String random = RandomStringUtils.random(6, "1234567890");
 
         if (userEntity.getVerificationCode() != null) {
-            mVerificationCodeRepository.deleteByUserId(userEntity.getVerificationCode().getId());
+            mVerificationCodeRepository.deleteByUserId(userEntity.getId());
+//            mVerificationCodeRepository.delete(userEntity.getVerificationCode());
         }
         VerificationCodeEntity verificationCodeEntity = VerificationCodeEntity.builder()
                 .code(Integer.parseInt(random))
@@ -202,10 +201,10 @@ public class UserServiceImpl implements UserService {
         if (userEntity == null) {
             throw new BadRequestException("Email is incorrect");
         }
-        if (!Objects.equals(userConsumeDto.getCode(),userEntity.getVerificationCode().getCode())) {
+        if (!Objects.equals(userConsumeDto.getCode(), userEntity.getVerificationCode().getCode())) {
             throw new BadRequestException("wrong verification code");
         }
-        userEntity.setPassword(mPasswordEncoder.encode(userEntity.getPassword()));
+        userEntity.setPassword(mPasswordEncoder.encode(userConsumeDto.getNewPassword()));
         mUserRepository.save(userEntity);
         return mUserMapper.toUserProduceDto(userEntity);
     }
