@@ -23,5 +23,6 @@ public interface UserService {
     UserProduceDto uploadImage(MultipartFile multipartFile) throws IOException;
 
     void getCodePassword(LoginConsumeDto loginConsumeDto) throws MessagingException;
+
     UserProduceDto resetPassword(UserConsumeDto userConsumeDto);
 }

@@ -38,6 +38,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.Objects;
 
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
@@ -103,7 +104,9 @@ public class UserServiceImpl implements UserService {
         if (userEntity.getIsActive()) {
             throw new BadRequestException("user activated");
         }
-        if (activeUserConsumeDto.getCode() != userEntity.getVerificationCode().getCode()) {
+        System.out.println(activeUserConsumeDto.getCode());
+        System.out.println(userEntity.getVerificationCode().getCode());
+        if (!Objects.equals(activeUserConsumeDto.getCode(), userEntity.getVerificationCode().getCode())) {
             throw new BadRequestException("wrong verification code");
         }
 //        if(LocalDateTime.now())
@@ -180,26 +183,26 @@ public class UserServiceImpl implements UserService {
             throw new BadRequestException("mail address does not exist");
         }
         String random = RandomStringUtils.random(6, "1234567890");
-        if (userEntity.getVerificationCode().getCode()==null) {
-            VerificationCodeEntity verificationCodeEntity = VerificationCodeEntity.builder()
-                    .code(Integer.parseInt(random))
-                    .user(userEntity)
-                    .build();
-            mVerificationCodeRepository.save(verificationCodeEntity);
-            mVerificationCodeService.sendEmailContainVerificationCode(userEntity.getEmail(), Integer.parseInt(random));
+
+        if (userEntity.getVerificationCode() != null) {
+            mVerificationCodeRepository.deleteByUserId(userEntity.getVerificationCode().getId());
         }
-        if(userEntity.getVerificationCode().getCode()!=null){
-        }
+        VerificationCodeEntity verificationCodeEntity = VerificationCodeEntity.builder()
+                .code(Integer.parseInt(random))
+                .user(userEntity)
+                .build();
+        mVerificationCodeRepository.save(verificationCodeEntity);
+        mVerificationCodeService.sendEmailContainVerificationCode(userEntity.getEmail(), Integer.parseInt(random));
     }
 
     @Override
     public UserProduceDto resetPassword(UserConsumeDto userConsumeDto) {
-        UserEntity userEntity=mUserRepository.findByEmail(userConsumeDto.getEmail());
+        UserEntity userEntity = mUserRepository.findByEmail(userConsumeDto.getEmail());
 
-        if(userEntity==null){
+        if (userEntity == null) {
             throw new BadRequestException("Email is incorrect");
         }
-        if (userConsumeDto.getCode() != userEntity.getVerificationCode().getCode()) {
+        if (!Objects.equals(userConsumeDto.getCode(),userEntity.getVerificationCode().getCode())) {
             throw new BadRequestException("wrong verification code");
         }
         userEntity.setPassword(mPasswordEncoder.encode(userEntity.getPassword()));
