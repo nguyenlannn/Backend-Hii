@@ -6,17 +6,21 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.example.backendhii.dto.consume.ActiveUserConsumeDto;
 import com.example.backendhii.dto.consume.EditUserConsumeDto;
+import com.example.backendhii.dto.consume.LoginConsumeDto;
 import com.example.backendhii.dto.consume.UserConsumeDto;
 import com.example.backendhii.dto.produce.UserProduceDto;
 import com.example.backendhii.entities.UserEntity;
+import com.example.backendhii.entities.VerificationCodeEntity;
 import com.example.backendhii.enums.RoleEnum;
 import com.example.backendhii.exceptions.BadRequestException;
 import com.example.backendhii.mapper.UserMapper;
 import com.example.backendhii.repository.RoleRepository;
 import com.example.backendhii.repository.UserRepository;
+import com.example.backendhii.repository.VerificationCodeRepository;
 import com.example.backendhii.services.UserService;
 import com.example.backendhii.services.VerificationCodeService;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -25,15 +29,16 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.mail.MessagingException;
 import javax.servlet.http.HttpServletRequest;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.Objects;
 
 import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 
@@ -54,6 +59,7 @@ public class UserServiceImpl implements UserService {
 
     private final HttpServletRequest request;
 
+    private final VerificationCodeRepository mVerificationCodeRepository;
 
     @Value("${JWT_SECRET}")
     private String JWT_SECRET;
@@ -98,7 +104,9 @@ public class UserServiceImpl implements UserService {
         if (userEntity.getIsActive()) {
             throw new BadRequestException("user activated");
         }
-        if (activeUserConsumeDto.getCode() != userEntity.getVerificationCode().getCode()) {
+        System.out.println(activeUserConsumeDto.getCode());
+        System.out.println(userEntity.getVerificationCode().getCode());
+        if (!Objects.equals(activeUserConsumeDto.getCode(), userEntity.getVerificationCode().getCode())) {
             throw new BadRequestException("wrong verification code");
         }
 //        if(LocalDateTime.now())
@@ -167,6 +175,38 @@ public class UserServiceImpl implements UserService {
         mUserRepository.save(userEntity);
         return mUserMapper.toUserProduceDto(userEntity);
     }
+
+    @Override
+    public void getCodePassword(LoginConsumeDto loginConsumeDto) throws MessagingException {
+        UserEntity userEntity = mUserRepository.findByEmail(loginConsumeDto.getEmail());
+        if (userEntity == null) {
+            throw new BadRequestException("mail address does not exist");
+        }
+        String random = RandomStringUtils.random(6, "1234567890");
+
+        if (userEntity.getVerificationCode() != null) {
+            mVerificationCodeRepository.deleteByUserId(userEntity.getVerificationCode().getId());
+        }
+        VerificationCodeEntity verificationCodeEntity = VerificationCodeEntity.builder()
+                .code(Integer.parseInt(random))
+                .user(userEntity)
+                .build();
+        mVerificationCodeRepository.save(verificationCodeEntity);
+        mVerificationCodeService.sendEmailContainVerificationCode(userEntity.getEmail(), Integer.parseInt(random));
+    }
+
+    @Override
+    public UserProduceDto resetPassword(UserConsumeDto userConsumeDto) {
+        UserEntity userEntity = mUserRepository.findByEmail(userConsumeDto.getEmail());
+
+        if (userEntity == null) {
+            throw new BadRequestException("Email is incorrect");
+        }
+        if (!Objects.equals(userConsumeDto.getCode(),userEntity.getVerificationCode().getCode())) {
+            throw new BadRequestException("wrong verification code");
+        }
+        userEntity.setPassword(mPasswordEncoder.encode(userEntity.getPassword()));
+        mUserRepository.save(userEntity);
+        return mUserMapper.toUserProduceDto(userEntity);
+    }
 }
-
-
